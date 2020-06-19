@@ -89,6 +89,7 @@ Window::~Window()
   glfwTerminate();
 }
 
+
 void Window::render()
 {
   glfwGetFramebufferSize(window, &width, &height);
@@ -108,6 +109,7 @@ void Window::render()
   glDrawArrays(GL_TRIANGLES, 0, 3);
   update();
 }
+
 
 void Window::update()
 {
@@ -147,6 +149,7 @@ GLuint Window::CompileShader(unsigned int type, const std::string& source)
   return id;
 }
 
+
 void Window::ProgramSet()
 {
   program = glCreateProgram();
@@ -174,10 +177,12 @@ std::string Window::load_shader_text(GLuint type, const std::string& filename)
   throw std::runtime_error(emsg);
 }
 
+
 void Window::print()
 {
   std::cout << "Printing info about window\n";
 }
+
 
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {

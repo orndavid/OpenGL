@@ -1,9 +1,9 @@
 #include "gl_api.h"
 #include <iostream>
 #include <exception>
+#include <thread>
 
-
-int main(void)
+void build_window()
 {
   try{
     Window nwind;
@@ -11,9 +11,14 @@ int main(void)
   }catch(const std::runtime_error& e)
     {
       std::cerr << e.what() << std::endl;
-      return -1;
     }
+}
 
-  std::cout << "Finshed\n";
-    return 0;
+int main(void)
+{
+  std::thread thr_class(build_window);
+  std::cout << "Continuing the main function \n";
+  thr_class.join();
+  std::cout << "Finishing function \n";
+  return 0;
 }

@@ -17,6 +17,9 @@ include_directories(${PROJECT_SOURCE_DIR})
 set(CMAKE_CXX_FLAGS "-Wall -std=c++17 -march=native")
 message("Build type " ${CMAKE_BUILD_TYPE})
 
+# Configure threading
+find_package(Threads REQUIRED)
+
 
 if(${CMAKE_BUILD_TYPE} STREQUAL release)
     message("Building in release mode")
@@ -29,7 +32,7 @@ elseif(${CMAKE_BUILD_TYPE} STREQUAL Debug)
     #message("Found GoogleTests")
     #message("Building TESTS")
     add_subdirectory(src)
-    add_compile_options(-ggdb3 -O0 -fno-eliminate-unused-symbols )
+    add_compile_options(-ggdb3 -O0 -fno-eliminate-unused-symbols)
 
     #add_subdirectory(tests)
 
