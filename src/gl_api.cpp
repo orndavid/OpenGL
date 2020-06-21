@@ -38,14 +38,19 @@ Window::Window()
     {
       throw std::runtime_error("Failed to create window");
     }
-
   if (!glfwInit())
-    exit(EXIT_FAILURE);
-
+    {
+      throw std::runtime_error("Failed to initialize glfw");
+    }
   glfwMakeContextCurrent(window);
   // Connecting the callback to the window
   glfwSetKeyCallback(window, key_callback);
-  gladLoadGL(glfwGetProcAddress);
+  int version = gladLoadGL(glfwGetProcAddress);
+
+  int major = GLAD_VERSION_MAJOR(version);
+  int minor = GLAD_VERSION_MINOR(version);
+
+  printf("Loaded OpenGL version %d.%d\n", major, minor);
   glfwSwapInterval(1);
 
   // Create a vertex buffer
@@ -82,7 +87,6 @@ Window::Window()
                         sizeof(vertices[0]), (void*) (sizeof(float) * 3));
 
   //std::cout << "offs (vces, y) " << offsetof(vces, y) << std::endl;
-
   while(!glfwWindowShouldClose(window))
     {
       //std::cout << glfwWindowShouldClose(window) << std::endl;
@@ -101,7 +105,6 @@ Window::~Window()
   glfwDestroyWindow(window);
   glfwTerminate();
 }
-
 
 void Window::render()
 {

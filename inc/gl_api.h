@@ -77,6 +77,13 @@ class Window
      Should only be run after CompileShaders
   */
   void ProgramSet();
+
+  /**
+     @func  errcall
+     @brief The fuction call for error handling
+  */
+
+  void errcall();
 };
 
 

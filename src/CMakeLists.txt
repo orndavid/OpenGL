@@ -12,7 +12,7 @@ set_property(TARGET dl PROPERTY
 find_package(Threads REQUIRED)
 
 set(NAME rrun)
-add_executable(${NAME} rtest.cpp gl_api.cpp)
+add_executable(${NAME} rtest.cpp gl_api.cpp error_handling.cpp)
 target_include_directories(${NAME} PUBLIC ${PROJECT_SOURCE_DIR}/inc
    ${PROJECT_SOURCE_DIR}/extern/glfw/include
    ${PROJECT_SOURCE_DIR}/extern/glfw/deps

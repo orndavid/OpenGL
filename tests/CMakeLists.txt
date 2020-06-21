@@ -31,7 +31,7 @@ macro(package_add_test TESTNAME)
     set_target_properties(${TESTNAME} PROPERTIES FOLDER tests)
 endmacro()
 
-package_add_test(test1 test1.cpp ${PROJECT_SOURCE_DIR}/src/gl_api.cpp)
+package_add_test(test1 test1.cpp ${PROJECT_SOURCE_DIR}/src/gl_api.cpp ${PROJECT_SOURCE_DIR}/src/error_handling.cpp)
 target_include_directories(test1 PUBLIC ${PROJECT_SOURCE_DIR}/inc
   ${PROJECT_SOURCE_DIR}/extern/glfw/include
   ${PROJECT_SOURCE_DIR}/extern/glfw/deps

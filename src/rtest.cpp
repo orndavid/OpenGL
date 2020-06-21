@@ -16,9 +16,10 @@ void build_window()
 
 int main(void)
 {
-  std::thread thr_class(build_window);
+  /*std::thread thr_class(build_window);
   std::cout << "Continuing the main function \n";
-  thr_class.join();
+  thr_class.join();*/
+  Window nwind;
   std::cout << "Finishing function \n";
   return 0;
 }
