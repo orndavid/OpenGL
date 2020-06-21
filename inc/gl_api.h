@@ -9,16 +9,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-static struct vces
+static struct _verticies
 {
   float x, y, z;
   float r, g, b;
-} vertices[3] =
+} vertices[] =
   {
-   { -0.9f, -0.1f, 0.0f, 1.f, .4f, 0.3f },
-   {  0.9f, -0.4f, 0.8f, 0.2f, .4f, 0.3f },
-   {   0.f,  0.2f,-0.7f, 0.1f, 0.9f, 1.f }
+   { -0.7f,  0.7f, 0.0f, 1.f, .0f, 0.f },//0
+   { -0.7f, -0.7f, 0.0f, 0.f, 1.f, 0.f },//1
+   {  0.7f, -0.7f,-0.0f, 0.f, 0.f, 1.f },//2
+   {  0.7f,  0.7f, 0.0f, 0.f, 1.f, 0.f } //3
   };
+
 
 class Window
 {
@@ -49,7 +51,8 @@ class Window
   int width, height, count {0};
   float ratio;
   GLFWwindow* window;
-  GLuint vertex_buffer, vertex_shader, fragment_shader, program;
+  // ibo = index buffer object
+  GLuint vertex_buffer, vertex_shader, fragment_shader, program, ibo;
   GLint mvp_location, vpos_location, vcol_location;
   mat4x4 m, p, mvp;
   std::string vertex_shader_txt, fragment_shader_txt;

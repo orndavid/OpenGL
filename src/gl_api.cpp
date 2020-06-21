@@ -16,6 +16,13 @@
 #include <cstddef> // offsetof
 #include <alloca.h> // alloca
 
+unsigned int indicies[] =
+  {
+   0,1,2,
+   2,3,0
+  };
+
+
 Window::Window()
 {
   if(!glfwInit())
@@ -41,14 +48,19 @@ Window::Window()
   gladLoadGL(glfwGetProcAddress);
   glfwSwapInterval(1);
 
+  // Create a vertex buffer
   glGenBuffers(1, &vertex_buffer);
   glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+  // Create index buffer
+  glGenBuffers(1, &ibo);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6*sizeof(unsigned int), indicies, GL_STATIC_DRAW);
 
   // TODO move this into a function call from the outside
   // Load the shader text
-  vertex_shader_txt   = load_shader_text(GL_VERTEX_SHADER, "vertex_shader.c");
-  fragment_shader_txt = load_shader_text(GL_FRAGMENT_SHADER, "fragment_shader.c");
+  vertex_shader_txt   = load_shader_text(GL_VERTEX_SHADER, "../shaders/vertex_shader.c");
+  fragment_shader_txt = load_shader_text(GL_FRAGMENT_SHADER, "../shaders/fragment_shader.c");
 
   // Add here -> CompileShader, but first we need to figure out how to configure the string src
   vertex_shader   = CompileShader(GL_VERTEX_SHADER, vertex_shader_txt);
@@ -64,9 +76,10 @@ Window::Window()
   glEnableVertexAttribArray(vpos_location);
   glVertexAttribPointer(vpos_location, 3, GL_FLOAT, GL_FALSE,
                         sizeof(vertices[0]), (void*) 0);
+
   glEnableVertexAttribArray(vcol_location);
   glVertexAttribPointer(vcol_location, 3, GL_FLOAT, GL_FALSE,
-                        sizeof(vertices[0]), (void*) (sizeof(float) * 2));
+                        sizeof(vertices[0]), (void*) (sizeof(float) * 3));
 
   //std::cout << "offs (vces, y) " << offsetof(vces, y) << std::endl;
 
@@ -95,34 +108,20 @@ void Window::render()
   glfwGetFramebufferSize(window, &width, &height);
   ratio = width / (float) height;
 
-  glViewport(0, 0, width, height);
+  glViewport(0, 0, width/2, height/2);
   glClear(GL_COLOR_BUFFER_BIT);
 
   mat4x4_identity(m);
   mat4x4_rotate_Z(m, m, (float) glfwGetTime()*2);
   mat4x4_ortho(p, -ratio, ratio, -1.f, 1.f, 1.f, -1.f);
   mat4x4_mul(mvp, p, m);
-  mat4x4_scale(mvp, mvp, 1.0/(10*glfwGetTime()));
 
   glUseProgram(program);
   glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat*) mvp);
-  glDrawArrays(GL_TRIANGLES, 0, 3);
-  update();
+  glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+  //glDrawArrays(GL_TRIANGLES, 0, 4);
 }
 
-
-void Window::update()
-{
-  if(count%1000==0)
-    {
-      float p = 0.95;
-      vertices[0].x = vertices[0].x*p;
-      vertices[1].r = vertices[1].r*p;
-    }
-
-  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
-  count++;
-}
 
 
 GLuint Window::CompileShader(unsigned int type, const std::string& source)
