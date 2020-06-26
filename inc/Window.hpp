@@ -1,7 +1,7 @@
 #ifndef _WINDOW_H_
 #define _WINDOW_H_
-
-struct GLFWwindow;
+#include "CONFIG.hpp"
+#include "IndexBuffer.hpp"
 
 class Window{
 public:
@@ -55,6 +55,16 @@ public:
      @brief Checks the window for event actions
   */
   void pollEvents();
+
+  /**
+     @func  draw
+     @brief Call the glDrawElements, which renders primatives from the array data
+     @param GLenum mode : Defines what type of primatives to draw
+            unsigned int count: Number of elements to be drawn
+            GLenum type : specifies the type of value in indicies, e.g. GL_UNSIGNED_BYTE, GL_UNSIGNED_SHORT, GL_UNSIGNED_INT
+
+  */
+  void draw(GLenum mode, unsigned int count, GLenum type, const void* indicies=nullptr);
 
   int height() {return height_;};
   int width() {return width_;};

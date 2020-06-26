@@ -69,8 +69,9 @@ int main(void)
 
       glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat*) mvp);
       // Overwrite this in nwin
-      //nwin.draw(GL_TRIANGLES, 6,);
-      glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+      //nwin.draw(GL_TRIANGLES, ibo.count(), GL_UNSIGNED_INT);
+      nwin.draw(GL_LINE_LOOP, ibo.count(), GL_UNSIGNED_INT);
+
 
       // Overwrite in nwin
       nwin.swapBuffers();

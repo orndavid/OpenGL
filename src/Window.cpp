@@ -1,5 +1,4 @@
 #include "Window.hpp"
-#include "CONFIG.hpp"
 #include <stdexcept>
 #include <iostream>
 #include <memory>
@@ -98,6 +97,12 @@ void Window::clear()
 void Window::constantViewport()
 {
   glViewport(0, 0, width_, height_);
+}
+
+
+void Window::draw(GLenum mode, unsigned int count, GLenum type, const GLvoid* indicies)
+{
+  glDrawElements(mode, count, type, nullptr);
 }
 
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
