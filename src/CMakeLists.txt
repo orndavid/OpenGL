@@ -17,6 +17,7 @@ add_library(${lib_name}
   ${PROJECT_SOURCE_DIR}/src/VertexBuffer.cpp
   ${PROJECT_SOURCE_DIR}/src/IndexBuffer.cpp
   ${PROJECT_SOURCE_DIR}/src/Program.cpp
+  ${PROJECT_SOURCE_DIR}/src/Textures.cpp
 
   )
 

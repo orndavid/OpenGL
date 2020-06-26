@@ -1,7 +1,7 @@
 #include "IndexBuffer.hpp"
 
 IndexBuffer::IndexBuffer(const unsigned int* data, const unsigned int count):
-  count_(count)
+  count_(count), type_(GL_UNSIGNED_INT)
 {
   glGenBuffers(1, &id_);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id_);

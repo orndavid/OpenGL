@@ -56,6 +56,12 @@ public:
   */
   void pollEvents();
 
+ /**
+    @func tDrawF
+    @brief Triangle draw from an index buffer object where the input type is float
+    @param IndexBuffer& ibo : Reference to a specific type
+ */
+  void tDrawF(IndexBuffer& ibo);
   /**
      @func  draw
      @brief Call the glDrawElements, which renders primatives from the array data
@@ -69,6 +75,12 @@ public:
   int height() {return height_;};
   int width() {return width_;};
   GLFWwindow* win() {return window;};
+
+  /**
+     @func blendOn
+     @brief Turns on blending allowing for the alpha value to be processed
+  */
+  void blendOn();
 
   bool close();
 
