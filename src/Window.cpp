@@ -49,6 +49,7 @@ Window::Window(int _height, int _width, const char* name):
   glfwSetKeyCallback(window, key_callback);
 }
 
+
 Window::~Window()
 {
   glfwDestroyWindow(window);
@@ -62,18 +63,22 @@ void Window::framerate(int fr)
 }
 
 
-// void Window::start()
-// {
-//   while(!glfwWindowShouldClose(window))
-//     {
-//       // Houskeeping
-//       glfwGetFramebufferSize(window, &width_, &height_);
-//       glClear(GL_COLOR_BUFFER_BIT);
-//       render();
-//       glfwSwapBuffers(window);
-//       glfwPollEvents();
-//     }
-// }
+void Window::windowSize(int* height, int* width)
+{
+  glfwGetFramebufferSize(window, width, height);
+  width_ = *width;
+  height_ = *height;
+}
+
+void Window::swapBuffers()
+{
+  glfwSwapBuffers(window);
+}
+
+void Window::pollEvents()
+{
+  glfwPollEvents();
+}
 
 void Window::wireframe()
 {
@@ -85,7 +90,15 @@ bool Window::close()
   return glfwWindowShouldClose(window);
 }
 
+void Window::clear()
+{
+  glClear(GL_COLOR_BUFFER_BIT);
+}
 
+void Window::constantViewport()
+{
+  glViewport(0, 0, width_, height_);
+}
 
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {

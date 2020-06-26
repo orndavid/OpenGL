@@ -1,4 +1,4 @@
-#includexg "gl_api.hpp"
+#include "gl_api.hpp"
 #include <iostream>
 
 #include "linmath.h" //Matrix computation in render()
@@ -21,45 +21,6 @@ unsigned int indicies[] =
 
 
 
-void render(Window& window, Program& program)
-{
-  mat4x4 m, p, mvp;
-  unsigned int mvp_location = program.uniform_loc("MVP");
-  int height, width;
-  float ratio;
-  // Move all into main function
-  while(!window.close())
-    {
-      height = window.height();
-      width = window.width();
-      //Overwrite this in window
-      glfwGetFramebufferSize(window.win(), &width, &height);
-      // Overwrite this in window
-      glClear(GL_COLOR_BUFFER_BIT);
-
-      ratio = width / (float)height;
-
-      // Overwrite this in window
-      glViewport(0, 0, width, height);
-
-      mat4x4_identity(m);
-      mat4x4_rotate_Z(m, m, (float) glfwGetTime());
-      mat4x4_ortho(p, -ratio, ratio, -1.f, 1.f, 1.f, -1.f);
-      mat4x4_mul(mvp, p, m);
-
-      // Overwrite this in program
-      glUseProgram(program.id());
-      // ???
-      glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat*) mvp);
-      // Overwrite this in window
-      glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-
-      // Overwrite in window
-      glfwSwapBuffers(window.win());
-      glfwPollEvents();
-    }
-}
-
 
 int main(void)
 {
@@ -67,8 +28,7 @@ int main(void)
 
   FragmentShader fragment_shader("../shaders/fragment_shader.c");
   VertexShader vertex_shader("../shaders/vertex_shader.c");
-  //  unsigned int vertex_shader = load_shader_text(GL_VERTEX_SHADER, "../shaders/vertex_shader.c");
-  //unsigned int fragment_shader = load_shader_text(GL_FRAGMENT_SHADER, "../shaders/fragment_shader.c");
+
   { /* This is because we mut ensure that the buffers destructors get called before the final window destructor */
 
     //VertexBuffer<float> vbo(data, 5);
@@ -82,21 +42,41 @@ int main(void)
   program.add_shader(vertex_shader);
   program.Bind();
 
-  unsigned int vpos_location = program.attrib_loc("vPos");
-  unsigned int vcol_location = program.attrib_loc("vCol");
+  program.vap("vPos", 3, GL_FLOAT, 6*sizeof(float), (void*) 0);
+  program.vap("vCol", 3, GL_FLOAT, 6*sizeof(float), (void*) (sizeof(float)*3));
 
-  // TODO : abstract the openGL calls
+  mat4x4 m, p, mvp;
+  unsigned int mvp_location = program.uniform_loc("MVP");
+  int height, width;
+  float ratio;
+  // Move all into main function
 
-  glEnableVertexAttribArray(vpos_location);
-  glVertexAttribPointer(vpos_location, 3, GL_FLOAT, GL_FALSE,
-                        sizeof(vertices[0]), (void*) 0);
+  while(!nwin.close())
+    {
+      nwin.windowSize(&height, &width);
+      nwin.clear();
 
-  glEnableVertexAttribArray(vcol_location);
-  glVertexAttribPointer(vcol_location, 3, GL_FLOAT, GL_FALSE,
-                        sizeof(vertices[0]), (void*) (sizeof(float) * 3));
+      ratio = width / (float)height;
+      nwin.constantViewport();
 
+      mat4x4_identity(m);
+      mat4x4_rotate_Z(m, m, (float) glfwGetTime());
+      mat4x4_ortho(p, -ratio, ratio, -1.f, 1.f, 1.f, -1.f);
+      mat4x4_mul(mvp, p, m);
 
-  render(nwin, program);
+      program.use();
+      // ???
+
+      glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat*) mvp);
+      // Overwrite this in nwin
+      //nwin.draw(GL_TRIANGLES, 6,);
+      glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+      // Overwrite in nwin
+      nwin.swapBuffers();
+      nwin.pollEvents();
+    }
+
   } /*Ensuring buffers are called first*/
 
   return 0;

@@ -27,10 +27,34 @@ public:
   void wireframe();
 
   /**
-     @func render
-     @brief This function is overwritten by the user, it gets called in the start function
-     @param
+     @func windowSize
+     @brief Sets the values by reference of the window height and width
+     @param int& height
+            int& width
   */
+  void windowSize(int* height, int* width);
+
+  /**
+     @func clear
+     @brief Clears the current figure in the window
+  */
+  void clear();
+
+  /**
+     @func constantViewport()
+     @brief Sets the viewport to represent the height and width of the window
+  */
+  void constantViewport();
+  /**
+     @func swapBuffers
+     @brief Swaps the front and back buffers for window
+  */
+  void swapBuffers();
+  /**
+     @func pollEvents
+     @brief Checks the window for event actions
+  */
+  void pollEvents();
 
   int height() {return height_;};
   int width() {return width_;};

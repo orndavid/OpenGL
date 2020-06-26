@@ -21,6 +21,11 @@ void Program::Bind()
   glValidateProgram(program_id);
 }
 
+void Program::use()
+{
+  glUseProgram(program_id);
+}
+
 
 unsigned int Program::attrib_loc(const std::string name)
 {
@@ -39,6 +44,19 @@ unsigned int Program::attrib_loc(const std::string name)
     return id;
   }
 }
+
+
+void Program::vap(std::string vname,
+                  int size,
+                  GLenum type,
+                  unsigned int stride,
+                  const void* pointer)
+{
+  unsigned int id = attrib_loc(vname);
+  glEnableVertexAttribArray(id);
+  glVertexAttribPointer(id, size, type, GL_FALSE, stride, pointer);
+}
+
 
 unsigned int Program::uniform_loc(const std::string name)
 {
