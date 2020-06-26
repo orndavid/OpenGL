@@ -1,0 +1,2 @@
+File taken from
+https://raw.githubusercontent.com/nothings/stb/master/stb_image.h
