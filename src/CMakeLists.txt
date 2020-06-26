@@ -27,6 +27,7 @@ target_include_directories(
   ${PROJECT_SOURCE_DIR}/extern/glad/build/include
   ${PROJECT_SOURCE_DIR}/extern/glfw/include
   ${PROJECT_SOURCE_DIR}/extern/glfw/deps
+  ${PROJECT_SOURCE_DIR}/extern/stb_image
   )
 
 target_link_libraries(
