@@ -107,13 +107,12 @@ void Window::tDrawF(IndexBuffer& ibo)
 void Window::draw(GLenum mode, unsigned int count, GLenum type, const GLvoid* indicies)
 {
   glDrawElements(mode, count, type, nullptr);
-  glEnable(GL_BLEND);
 }
 
 void Window::blendOn()
 {
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+  glEnable(GL_BLEND);
 }
 
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
