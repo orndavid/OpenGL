@@ -80,3 +80,8 @@ unsigned int Program::uniform_loc(const std::string name)
     return id;
   }
 }
+
+void Program::setUniformMat4xFloat(const std::string& name, float matrix[4][4])
+{
+  glUniformMatrix4fv(uniform_loc(name), 1, GL_FALSE, (const GLfloat*) matrix);
+}
