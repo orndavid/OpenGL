@@ -21,8 +21,6 @@ class VertexShader : public Shader
 public:
   VertexShader(std::string filename);
   unsigned int id(){return id_;};
-  void Bind() const;
-  void Unbind() const;
 };
 
 class FragmentShader : public Shader
@@ -30,8 +28,6 @@ class FragmentShader : public Shader
 public:
   FragmentShader(std::string filename);
   unsigned int id(){return id_;};
-  void Bind() const;
-  void Unbind() const;
 };
 
 /**

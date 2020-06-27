@@ -21,7 +21,7 @@ void Program::Bind()
   glValidateProgram(program_id);
 }
 
-void Program::use()
+void Program::Use()
 {
   glUseProgram(program_id);
 }
@@ -57,6 +57,11 @@ void Program::vap(std::string vname,
   glVertexAttribPointer(id, size, type, GL_FALSE, stride, pointer);
 }
 
+
+void Program::uniformI(const std::string vname, int value)
+{
+  glUniform1i(uniform_loc(vname), value);
+};
 
 unsigned int Program::uniform_loc(const std::string name)
 {

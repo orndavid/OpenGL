@@ -31,7 +31,7 @@ public:
      @func use
      @brief Sets the program to the current program being used
   */
-  void use();
+  void Use();
 
   /**
      @func vap
@@ -48,12 +48,21 @@ public:
            const void* pointer);
 
   /**
+     @func uniformI
+     @brief Set a integer value to a gpu stored variable
+     @param std::string vname : Variable name in the shader files
+           int value  : integer, set the value
+  */
+  void uniformI(const std::string vname, int value);
+
+  /**
      @func attrib_loc
      @brief Get a id to the shader variable on the gpu
      @param std::string name, name of the variable in the shader
   */
   unsigned int attrib_loc(const std::string name);
   unsigned int uniform_loc(const std::string name);
+
 
   unsigned int id() {return program_id;};
 

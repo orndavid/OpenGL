@@ -8,38 +8,28 @@ Shader::Shader(unsigned int type, std::string filename) :
 {}
 
 Shader::~Shader()
+{}
+
+
+void Shader::Bind() const
 {
-  
+  glUseProgram(id_);
 }
 
+void Shader::Unbind() const
+{
+  glUseProgram(0);
+}
 
 
 VertexShader::VertexShader(std::string filename):
   Shader(GL_VERTEX_SHADER, filename){}
 
-void VertexShader::Bind() const
-{
-  glUseProgram(id_);
-}
-
-void VertexShader::Unbind() const
-{
-  glUseProgram(0);
-}
 
 
 FragmentShader::FragmentShader(std::string filename):
   Shader(GL_FRAGMENT_SHADER, filename){}
 
-void FragmentShader::Bind() const
-{
-  glUseProgram(id_);
-}
-
-void FragmentShader::Unbind() const
-{
-  glUseProgram(0);
-}
 
 /**
    @func load_shader_text

@@ -47,6 +47,12 @@
 */
 #include "Program.hpp"
 
+/**
+   @incl   The texture references
+   @brief
+   @param
+*/
+#include "Textures.hpp"
 
 
 #endif //_GL_API_H_
