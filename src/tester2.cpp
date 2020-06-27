@@ -7,10 +7,10 @@
 //   configuration  x, y, z, r, g, b, alph, tx, ty
 float vertices[4][9] =
   {
-   { -0.9f, -0.9f, 0.0f, 1.f, 0.0f, 0.f, 1.0f, 0.0f, 0.0f},//0
-   {  0.9f, -0.9f, 0.0f, 0.f, 1.0f, 0.f, 1.0f, 1.0f, 0.0f},//1
-   {  0.9f,  0.9f,-0.0f, 0.f, 0.0f, 1.f, 1.0f, 1.0f, 1.0f},//2
-   { -0.9f,  0.9f, 0.0f, 0.f, 1.0f, 0.f, 0.1f, 0.0f, 1.0f} //3
+   { -0.9f, -0.9f, 1.0f, 1.f, 1.0f, 1.f, 1.0f, 0.0f, 0.0f},//0
+   {  0.9f, -0.9f, 0.0f, 0.f, 1.0f, 0.f, 0.7f, 1.0f, 0.0f},//1
+   {  0.9f,  0.9f,-1.0f, 1.f, 1.0f, 1.f, 1.0f, 1.0f, 1.0f},//2
+   { -0.9f,  0.9f, 0.0f, 0.f, 1.0f, 0.f, 0.7f, 0.0f, 1.0f} //3
   };
 
 
@@ -21,6 +21,16 @@ unsigned int indicies[] =
   };
 
 
+
+void do_math(mat4x4& data, float& ratio)
+{
+  mat4x4 m, p;
+  mat4x4_identity(m);
+  mat4x4_rotate_Z(m, m, -(float) glfwGetTime()/10);
+
+  mat4x4_ortho(p, -ratio, ratio, -1.f, 1.f, 1.f, -1.f);
+  mat4x4_mul(data, p, m);
+}
 
 
 int main(void)
@@ -60,12 +70,12 @@ int main(void)
   program.vap("aCol", 4, GL_FLOAT, 9*sizeof(float), (void*) (sizeof(float)*3));
   program.vap("aTexCoord", 2, GL_FLOAT, 9*sizeof(float), (void*) (sizeof(float)*7));
 
-  mat4x4 m, p, mvp;
-  unsigned int mvp_location = program.uniform_loc("MVP");
+
   int height, width;
   float ratio;
   // Move all into main function
-    while(!nwin.close())
+  mat4x4 data;
+  while(!nwin.close())
     {
       nwin.windowSize(&height, &width);
       nwin.clear();
@@ -73,19 +83,16 @@ int main(void)
       ratio = width / (float)height;
       nwin.constantViewport();
 
-      mat4x4_identity(m);
-      mat4x4_rotate_Z(m, m, -(float) glfwGetTime()/10);
-
-      mat4x4_ortho(p, -ratio, ratio, -1.f, 1.f, 1.f, -1.f);
-      mat4x4_mul(mvp, p, m);
-
       program.Use();
+
       // This is a math specific call and is really specific to this vertex shader
-      glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat*) mvp);
+      do_math(data, ratio);
+      program.setUniformMat4xFloat("MVP", data);
+
       // Overwrite this in nwin
       //nwin.draw(GL_TRIANGLES, ibo.count(), GL_UNSIGNED_INT);
-      t_alex.Bind(0);
-      t_map.Bind(1);
+      t_alex.Bind(1);
+      t_map.Bind(0);
       nwin.tDrawF(ibo);
       //      nwin.draw(GL_LINE_LOOP, ibo.count(), GL_UNSIGNED_INT);
 
@@ -96,6 +103,5 @@ int main(void)
     }
 
   } /*Ensuring buffers are called first*/
-
-  return 0;
+    return 0;
 }
