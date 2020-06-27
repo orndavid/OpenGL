@@ -62,7 +62,7 @@ public:
   */
   unsigned int attrib_loc(const std::string name);
   unsigned int uniform_loc(const std::string name);
-
+  void setUniformMat4xFloat(const std::string& name, float matrix[4][4]);
 
   unsigned int id() {return program_id;};
 
